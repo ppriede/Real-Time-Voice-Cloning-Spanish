@@ -60,21 +60,21 @@ def preprocess_speaker(speaker_dir, out_dir: Path, skip_existing: bool, hparams,
             extensions = ["*.wav", "*.flac", "*.mp3"]
             for extension in extensions:
                 wav_fpaths = book_dir.glob(extension)
-
+                
                 for wav_fpath in wav_fpaths:
                     # Load the audio waveform
                     wav, _ = librosa.load(str(wav_fpath), hparams.sample_rate)
                     if hparams.rescale:
                         wav = wav / np.abs(wav).max() * hparams.rescaling_max
-
+                    
                     # Get the corresponding text
                     # Check for .txt (for compatibility with other datasets)
                     text_fpath = wav_fpath.with_suffix(".txt")
                     if not text_fpath.exists():
                         # Check for .normalized.txt (LibriTTS)
-                        text_fpath = wav_fpath.with_suffix(".normalized.txt")
+                        text_fpath = wav_fpath.with_suffix(".txt")               
                         assert text_fpath.exists()
-                    with text_fpath.open("r") as text_file:
+                    with text_fpath.open("r", encoding="utf-8") as text_file:
                         text = "".join([line for line in text_file])
                         text = text.replace("\"", "")
                         text = text.strip()
@@ -87,7 +87,7 @@ def preprocess_speaker(speaker_dir, out_dir: Path, skip_existing: bool, hparams,
             # Gather the utterance audios and texts
             try:
                 alignments_fpath = next(book_dir.glob("*.alignment.txt"))
-                with alignments_fpath.open("r") as alignments_file:
+                with alignments_fpath.open("r", encoding="utf-8") as alignments_file:
                     alignments = [line.rstrip().split(" ") for line in alignments_file]
             except StopIteration:
                 # A few alignment files will be missing
@@ -247,7 +247,7 @@ def create_embeddings(synthesizer_root: Path, encoder_model_fpath: Path, n_proce
     embed_dir.mkdir(exist_ok=True)
     
     # Gather the input wave filepath and the target output embed filepath
-    with metadata_fpath.open("r") as metadata_file:
+    with metadata_fpath.open("r", encoding="utf-8") as metadata_file:
         metadata = [line.split("|") for line in metadata_file]
         fpaths = [(wav_dir.joinpath(m[0]), embed_dir.joinpath(m[2])) for m in metadata]
         

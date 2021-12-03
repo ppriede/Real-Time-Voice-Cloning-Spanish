@@ -3,8 +3,8 @@ Cleaners are transformations that run over the input text at both training and e
 
 Cleaners can be selected by passing a comma-delimited list of cleaner names as the "cleaners"
 hyperparameter. Some cleaners are English-specific. You"ll typically want to use:
-  1. "english_cleaners" for English text
-  2. "transliteration_cleaners" for non-English text that can be transliterated to ASCII using
+  1. "spanish_cleaners" for Spanish text
+  2. "transliteration_cleaners" for non-Spanish text that can be transliterated to ASCII using
      the Unidecode library (https://pypi.python.org/pypi/Unidecode)
   3. "basic_cleaners" if you do not want to transliterate (in this case, you should also update
      the symbols in symbols.py to match your data).
@@ -19,24 +19,18 @@ _whitespace_re = re.compile(r"\s+")
 
 # List of (regular expression, replacement) pairs for abbreviations:
 _abbreviations = [(re.compile("\\b%s\\." % x[0], re.IGNORECASE), x[1]) for x in [
-  ("mrs", "misess"),
-  ("mr", "mister"),
+  ("lic", "licenciado"),
+  ("mag", "magister"),
   ("dr", "doctor"),
-  ("st", "saint"),
-  ("co", "company"),
-  ("jr", "junior"),
-  ("maj", "major"),
-  ("gen", "general"),
-  ("drs", "doctors"),
-  ("rev", "reverend"),
-  ("lt", "lieutenant"),
-  ("hon", "honorable"),
-  ("sgt", "sergeant"),
-  ("capt", "captain"),
-  ("esq", "esquire"),
-  ("ltd", "limited"),
-  ("col", "colonel"),
-  ("ft", "fort"),
+  ("co", "colombia"),
+  ("jr", "jirón"),
+  ("av", "avenida"),
+  ("gen", "generación"),
+  ("sgt", "siguiente"),
+  ("q", "que"),
+  ("x", "por"),
+  ("pq", "porque"),
+  ("ps", "pues"),
 ]]
 
 
@@ -71,15 +65,15 @@ def basic_cleaners(text):
 
 
 def transliteration_cleaners(text):
-  """Pipeline for non-English text that transliterates to ASCII."""
+  """Pipeline for non-Spanish text that transliterates to ASCII."""
   text = convert_to_ascii(text)
   text = lowercase(text)
   text = collapse_whitespace(text)
   return text
 
 
-def english_cleaners(text):
-  """Pipeline for English text, including number and abbreviation expansion."""
+def spanish_cleaners(text):
+  """Pipeline for Spanish text, including number and abbreviation expansion."""
   text = convert_to_ascii(text)
   text = lowercase(text)
   text = expand_numbers(text)

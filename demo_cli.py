@@ -23,7 +23,7 @@ if __name__ == '__main__':
                         default="encoder/saved_models/pretrained.pt",
                         help="Path to a saved encoder")
     parser.add_argument("-s", "--syn_model_fpath", type=Path, 
-                        default="synthesizer/saved_models/pretrained/pretrained.pt",
+                        default="synthesizer/saved_models/cvcorpus/cvcorpus_200k.pt",
                         help="Path to a saved synthesizer")
     parser.add_argument("-v", "--voc_model_fpath", type=Path, 
                         default="vocoder/saved_models/pretrained/pretrained.pt",

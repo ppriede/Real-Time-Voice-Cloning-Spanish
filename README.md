@@ -1,5 +1,5 @@
 # Real-Time Voice Cloning in Spanish
-This repository is a fork of [Real Time Voice Cloning](https://github.com/CorentinJ/Real-Time-Voice-Cloning) (RTVC) with a synthesizer that works for the Spanish language. You can listen to the demo audios from all the Spanish models we trained (and a sample from RacoonML's trained model, too) [here](https://alexstevechungalvarez.github.io/Real-Time-Voice-Cloning-Spanish/).
+This repository is a fork of [Real Time Voice Cloning](https://github.com/CorentinJ/Real-Time-Voice-Cloning) (RTVC) with a synthesizer that works for the Spanish language. You can check my [paper](https://github.com/AlexSteveChungAlvarez/Real-Time-Voice-Cloning-Spanish/blob/page/docs/Real-Time%20Voice%20Cloning%20for%20Spanish%20Speakers.pdf) for a more detailed explanation. You can listen to the demo audios from all the Spanish models we trained (and a sample from RacoonML's trained model, too) [here](https://alexstevechungalvarez.github.io/Real-Time-Voice-Cloning-Spanish/).
 
 ### Papers implemented (by CorentinJ)
 | URL | Designation | Title | Implementation source |

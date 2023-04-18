@@ -1,6 +1,7 @@
 import re
 import inflect
 
+
 _inflect = inflect.engine()
 _comma_number_re = re.compile(r"([0-9][0-9\,]+[0-9])")
 _decimal_number_re = re.compile(r"([0-9]+\.[0-9]+)")
@@ -11,7 +12,7 @@ _number_re = re.compile(r"[0-9]+")
 
 
 def _remove_commas(m):
-  return m.group(1).replace(",", "")
+    return m.group(1).replace(",", "")
 
 
 def _expand_decimal_point(m):
@@ -40,7 +41,7 @@ def _expand_dollars(m):
 
 
 def _expand_ordinal(m):
-  return _inflect.number_to_words(m.group(0))
+    return _inflect.number_to_words(m.group(0))
 
 
 def _expand_number(m):

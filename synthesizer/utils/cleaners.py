@@ -9,10 +9,10 @@ hyperparameter. Some cleaners are English-specific. You"ll typically want to use
   3. "basic_cleaners" if you do not want to transliterate (in this case, you should also update
      the symbols in symbols.py to match your data).
 """
-
 import re
 from unidecode import unidecode
-from .numbers import normalize_numbers
+from synthesizer.utils.numbers import normalize_numbers
+
 
 # Regular expression matching whitespace:
 _whitespace_re = re.compile(r"\s+")
@@ -35,33 +35,33 @@ _abbreviations = [(re.compile("\\b%s\\." % x[0], re.IGNORECASE), x[1]) for x in 
 
 
 def expand_abbreviations(text):
-  for regex, replacement in _abbreviations:
-    text = re.sub(regex, replacement, text)
-  return text
+    for regex, replacement in _abbreviations:
+        text = re.sub(regex, replacement, text)
+    return text
 
 
 def expand_numbers(text):
-  return normalize_numbers(text)
+    return normalize_numbers(text)
 
 
 def lowercase(text):
-  """lowercase input tokens."""
-  return text.lower()
+    """lowercase input tokens."""
+    return text.lower()
 
 
 def collapse_whitespace(text):
-  return re.sub(_whitespace_re, " ", text)
+    return re.sub(_whitespace_re, " ", text)
 
 
 def convert_to_ascii(text):
-  return unidecode(text)
+    return unidecode(text)
 
 
 def basic_cleaners(text):
-  """Basic pipeline that lowercases and collapses whitespace without transliteration."""
-  text = lowercase(text)
-  text = collapse_whitespace(text)
-  return text
+    """Basic pipeline that lowercases and collapses whitespace without transliteration."""
+    text = lowercase(text)
+    text = collapse_whitespace(text)
+    return text
 
 
 def transliteration_cleaners(text):

@@ -23,7 +23,7 @@ def split_cvcorpus(transcript_dir,dataset_dir):
         audio_filenames = [item[1] for item in metadata[1:]]
         filename_parts = [filename.split(".") for filename in audio_filenames]
         names = [part[0] for part in filename_parts]
-        text_filenames = [dataset_dir + name + ".txt" for name in names]
+        text_filenames = [os.path.join(dataset_dir, name) + ".txt" for name in names]
         
         for i in tqdm(range(len(audio_filenames))):
             with Path(text_filenames[i]).open("w", encoding="utf8") as output_file:
@@ -31,8 +31,8 @@ def split_cvcorpus(transcript_dir,dataset_dir):
         
         for name in names:
             shutil.copyfile(
-                    os.path.join(transcript_dir,"clips")+name+".mp3",
-                    dataset_dir+name+".mp3"
+                    os.path.join(transcript_dir,"clips",name)+".mp3",
+                    os.path.join(dataset_dir,name)+".mp3"
                 )
 
 def split_pespa(gender):

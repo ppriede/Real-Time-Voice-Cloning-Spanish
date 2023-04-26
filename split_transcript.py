@@ -1,6 +1,9 @@
 from pathlib import Path
 from tqdm import tqdm
 import shutil
+import os
+import argparse
+from utils.argutils import print_args
 
 def split_tux100h():
     with Path("datasets_root/tux100h-cvcorpus/metadata.csv").open("r", encoding="utf8") as metadata_file:
@@ -12,15 +15,15 @@ def split_tux100h():
             with Path(text_filenames[i]).open("w", encoding="utf8") as output_file:
                 output_file.write(texts[i])
 
-def split_cvcorpus():
-    with Path("D:/tesis2/cv-corpus-7.0-2021-07-21/es/train.tsv").open("r", encoding="utf8") as metadata_file:
+def split_cvcorpus(transcript_dir,dataset_dir):
+    with Path(os.path.join(transcript_dir,"train.tsv")).open("r", encoding="utf8") as metadata_file:
         metadata = [line.split("\t") for line in metadata_file]
         texts = [item[2] for item in metadata[1:]]
 
         audio_filenames = [item[1] for item in metadata[1:]]
         filename_parts = [filename.split(".") for filename in audio_filenames]
         names = [part[0] for part in filename_parts]
-        text_filenames = ["datasets_root/cvcorpus/valid/spanish/cv-corpus/" + name + ".txt" for name in names]
+        text_filenames = [dataset_dir + name + ".txt" for name in names]
         
         for i in tqdm(range(len(audio_filenames))):
             with Path(text_filenames[i]).open("w", encoding="utf8") as output_file:
@@ -28,8 +31,8 @@ def split_cvcorpus():
         
         for name in names:
             shutil.copyfile(
-                    'D:/tesis2/cv-corpus-7.0-2021-07-21/es/clips/'+name+'.mp3',
-                    'datasets_root/cvcorpus/valid/spanish/cv-corpus/'+name+'.mp3'
+                    os.path.join(transcript_dir,"clips")+name+".mp3",
+                    dataset_dir+name+".mp3"
                 )
 
 def split_pespa(gender):
@@ -44,12 +47,12 @@ def split_pespa(gender):
 
 
 if __name__=="__main__":
-    #for i in range(52408):
-    #    shutil.copyfile(
-    #            'datasets_root/tux100h-cvcorpus/valid/spanish/tux-100h/'+str(i)+'.wav',
-    #            'datasets_root/tux100h-cvcorpus/valid/spanish/tux-100h_new/utterance-'+str(i)+'.wav'
-    #        )
-    #split_tux100h()
-    #split_pespa("female")
-    #split_pespa("male")
-    split_cvcorpus()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("transcript_dir", type=Path, help= \
+        "Path to the transcript directory that contains the transcript with the information of, "
+        "the audios and the texts.")
+    parser.add_argument("-o", "--dataset_dir", type=Path, default="datasets_root/cvcorpus/train/spanish/cv-corpus/", help=\
+        "Path to the output directory that will contain the dataset formatted in the required structure.")
+    args = parser.parse_args()
+    print_args(args, parser)
+    split_cvcorpus(**vars(args))

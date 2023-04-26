@@ -15,8 +15,8 @@ def split_tux100h():
             with Path(text_filenames[i]).open("w", encoding="utf8") as output_file:
                 output_file.write(texts[i])
 
-def split_cvcorpus(transcript_dir,dataset_dir):
-    dataset_dir.mkdir(exist_ok=True)
+def split_cvcorpus(transcript_dir:Path,dataset_dir:Path):
+    dataset_dir.mkdir()
     with Path(os.path.join(transcript_dir,"train.tsv")).open("r", encoding="utf8") as metadata_file:
         metadata = [line.split("\t") for line in metadata_file]
         texts = [item[2] for item in metadata[1:]]

@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  voice-cloning:
+    build: .
+    volumes:
+      - .:/app
+    command: python demo_cli.py
+    stdin_open: true
+    tty: true
